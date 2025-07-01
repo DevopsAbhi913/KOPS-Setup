@@ -21,20 +21,20 @@ echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/
 ```
 3.  **Update APT and Install Kubernetes + Python Tools**
 
-    ```bash
-    sudo apt-get update
-    sudo apt-get install -y python3-pip apt-transport-https kubectl
-    ```
+```bash
+sudo apt-get update
+sudo apt-get install -y python3-pip apt-transport-https kubectl
+```
 4.  **Install and Upgrade AWS CLI with pip**
 
-    ```bash
-    pip3 install awscli --upgrade
-    ```
+```bash
+pip3 install awscli --upgrade
+```
 5.  **Add pip's local bin directory to PATH**
 
-    ```bash
-    export PATH="$PATH:/home/ubuntu/.local/bin/"
-    ```
+```bash
+export PATH="$PATH:/home/ubuntu/.local/bin/"
+```
 ## Install KOPS (the key player)
 ```bash
 curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
