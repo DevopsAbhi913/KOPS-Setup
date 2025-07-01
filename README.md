@@ -62,3 +62,25 @@ Default region name [us-east-1]:
 Default output format [table]:
 ```
 You need to enter the requested AWS Access Key ID, AWS Secret Access Key, Default region name, Default output format based on your IAM user.
+## Kubernetes Cluster Installation:
+### Create S3 bucket for storing the KOPS objects.
+```bash
+aws s3api create-bucket --bucket kops-abhi-storage --region us-east-1
+```
+### Create the cluster
+```bash
+kops create cluster --name=demok8scluster.k8s.local --state=s3://kops-abhi-storage --zones=us-east-1a --node-count=1 --node-size=t2.micro --master-size=t2.micro  --master-volume-size=8 --node-volume-size=8
+```
+### Important: Edit the configuration as there are multiple resources created which won't fall into the free tier
+```bash
+kops edit cluster myfirstcluster.k8s.local
+```
+Build the cluster
+```bash
+kops update cluster demok8scluster.k8s.local --yes --state=s3://kops-abhi-storage
+```
+This will take a few minutes to create............
+After a few mins, run the below command to verify the cluster installation.
+```bash
+kops validate cluster demok8scluster.k8s.local
+```
