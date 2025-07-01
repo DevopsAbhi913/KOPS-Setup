@@ -112,3 +112,7 @@ Use kops when:
 | Fast, automated AWS production | `kops`     |
 | Multi-AZ, HA cluster on AWS    | `kops`     |
 
+| abhi        | ram    |
+|-------------|--------|
+| ok          | not ok |
+
