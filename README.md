@@ -12,5 +12,14 @@ Create an EC2 instance with required **dependencies** :
 ```bash
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 
-```bash
 echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+
+```bash
+# clone the repo
+git clone https://github.com/yourusername/yourproject.git
+cd yourproject
+
+# install dependencies
+npm install
+# or
+pip install -r requirements.txt
