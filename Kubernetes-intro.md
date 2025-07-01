@@ -111,8 +111,3 @@ Use kops when:
 | Bare-metal or custom VMs       | `kubeadm`  |
 | Fast, automated AWS production | `kops`     |
 | Multi-AZ, HA cluster on AWS    | `kops`     |
-
-| abhi        | ram    |
-|-------------|--------|
-| ok          | not ok |
-
