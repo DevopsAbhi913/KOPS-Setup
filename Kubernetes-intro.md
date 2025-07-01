@@ -73,7 +73,7 @@ Packaged with UI, monitoring, policy, security, multi-cluster management.
 ➡️ Use case: Experimental, large-scale, federated Kubernetes
 
 
-## We already seen **Kubeadm**, Why **KOPS** ? Let me clarity it with simple tabular format [**Kubeadm vs KOPS**]
+# We already seen **Kubeadm**, Why **KOPS** ? Let me clarity it with simple tabular format [**Kubeadm vs KOPS**]
 
 | Feature                                 | **kubeadm**                                 | **kops**                                                |
 | --------------------------------------- | ------------------------------------------- | ------------------------------------------------------- |
@@ -110,5 +110,5 @@ Use kops when:
 | Hands-on learning              | `kubeadm`  |
 | Bare-metal or custom VMs       | `kubeadm`  |
 | Fast, automated AWS production | `kops`     |
-| Multi-AZ, HA cluster on AWS    | `kops`    |
+| Multi-AZ, HA cluster on AWS    | `kops`     |
 
