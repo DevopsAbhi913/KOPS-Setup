@@ -9,17 +9,29 @@ Create an EC2 instance with required **dependencies** :
 
 ## 📦 Installation
 
+1. **Add kubernetes GPG Key**
+   
 ```bash
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+```
+2. **Add kubernetes API Repository**
 
 ```bash
-# clone the repo
-git clone https://github.com/yourusername/yourproject.git
-cd yourproject
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+```
+3.  **Update APT and Install Kubernetes + Python Tools**
 
-# install dependencies
-npm install
-# or
-pip install -r requirements.txt
+    ```bash
+    sudo apt-get update
+    sudo apt-get install -y python3-pip apt-transport-https kubectl
+    ```
+4.  **Install and Upgrade AWS CLI with pip**
+
+    ```bash
+    pip3 install awscli --upgrade
+    ```
+5.  **Add pip's local bin directory to PATH**
+
+    ```bash
+    export PATH="$PATH:/home/ubuntu/.local/bin/"
+    ```
