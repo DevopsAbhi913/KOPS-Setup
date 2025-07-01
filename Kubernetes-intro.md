@@ -59,15 +59,15 @@ Packaged with UI, monitoring, policy, security, multi-cluster management.
 
 ## 5.  Experimental & Under Development / Emerging Approaches
 
--  KubeEdge – Kubernetes-native edge computing framework.
--  OpenYurt – Extends Kubernetes to edge without requiring cloud access.
--  Liqo – Dynamic multi-cluster and multi-cloud federation.
--  Virtual Kubelet – For serverless and virtual node integration.
--  Karmada – Kubernetes multi-cluster orchestration.
--  KubeVirt – Run VMs on Kubernetes (virtualization on Kubernetes).
--  Gardener (by SAP) – Meta-Kubernetes: manages other Kubernetes clusters.
--  Cluster API (CAPI) – Declarative Kubernetes cluster lifecycle management.
--  Talos Linux – OS built for Kubernetes, minimal and immutable.
+-  **KubeEdge** – Kubernetes-native edge computing framework.
+-  **OpenYurt** – Extends Kubernetes to edge without requiring cloud access.
+-  **Liqo** – Dynamic multi-cluster and multi-cloud federation.
+-  **Virtual Kubelet** – For serverless and virtual node integration.
+-  **Karmada** – Kubernetes multi-cluster orchestration.
+-  **KubeVirt** – Run VMs on Kubernetes (virtualization on Kubernetes).
+-  **Gardener (by SAP)** – Meta-Kubernetes: manages other Kubernetes clusters.
+-  **Cluster API (CAPI)** – Declarative Kubernetes cluster lifecycle management.
+-  **Talos Linux** – OS built for Kubernetes, minimal and immutable.
 
 ➡️ Pros: Focus on advanced use cases – edge, multi-cluster, hybrid.
 ➡️ Use case: Experimental, large-scale, federated Kubernetes
