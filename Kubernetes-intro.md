@@ -1,16 +1,16 @@
-# Kubernetes-Production-Setups
+# *Kubernetes-Production-Setups*
 
 In the Kubernetes, there are multiple types of **Kubernetes setups** available depending on the **deployment model**, **infrastructure**, and **ease of management**. These setups can be broadly categorized into **production-ready**, **development/testing**, and **under development** or **emerging technologies**
 ## 1.  Managed Kubernetes Services (Production-Grade)
 Fully managed by cloud providers.
 
--  Amazon EKS (Elastic Kubernetes Service)
--  Azure AKS (Azure Kubernetes Service)
--  Google GKE (Google Kubernetes Engine)
--  IBM Cloud Kubernetes Service
--  Oracle OKE (Oracle Kubernetes Engine)
--  DigitalOcean Kubernetes
--  Linode Kubernetes Engine
+-  **Amazon EKS** (Elastic Kubernetes Service)
+-  **Azure AKS** (Azure Kubernetes Service)
+-  **Google GKE** (Google Kubernetes Engine)
+-  **IBM Cloud** Kubernetes Service
+-  **Oracle OKE** (Oracle Kubernetes Engine)
+-  **DigitalOcean Kubernetes**
+-  **Linode Kubernetes Engine**
 
 ➡️  Pros: Easy to set up, managed control plane, scalable, secure.
 ➡️  Use case: Enterprise production workloads.
@@ -22,7 +22,7 @@ a.  Using **kubeadm**
 -  Manually provisioned clusters (e.g., on-premises or cloud VMs)
 -  Common for learning, POCs, and flexible production setups.
 
-b.  Using **Kops** (Kubernetes Operations)
+b.  Using **Kops (Kubernetes Operations)**
 -  Set up Kubernetes on AWS, GCP, OpenStack.
 -  Infrastructure as code + automation-friendly.
 
