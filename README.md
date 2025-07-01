@@ -54,7 +54,7 @@ sudo mv kops-linux-amd64 /usr/local/bin/kops
 ```bash
 aws configure
 ```
--you will prompted to enter the following
+  -you will prompted to enter the following details:
 ```bash
 AWS Access Key ID [****************NE5G]:
 AWS Secret Access Key [****************FJE3]:
