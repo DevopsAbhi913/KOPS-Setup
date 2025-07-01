@@ -42,3 +42,23 @@ curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://
 chmod +x kops-linux-amd64
 
 sudo mv kops-linux-amd64 /usr/local/bin/kops
+```
+## Provide the below permissions to your IAM user. If you are using the admin user, the below permissions are available by default
+1.  AmazonEC2FullAccess
+2.  AmazonS3FullAccess
+3.  IAMFullAccess
+4.  AmazonVPCFullAccess
+
+## Set up AWS CLI configuration on your EC2 Instance or Laptop
+### Run 
+```bash
+aws configure
+```
+-you will prompted to enter the following
+```bash
+AWS Access Key ID [****************NE5G]:
+AWS Secret Access Key [****************FJE3]:
+Default region name [us-east-1]:
+Default output format [table]:
+```
+You need to enter the requested AWS Access Key ID, AWS Secret Access Key, Default region name, Default output format based on your IAM user.
