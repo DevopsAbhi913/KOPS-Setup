@@ -1,4 +1,4 @@
-# KOPS-Setup
+# KOPS Setup on AWS (Amazon Linux / Ubuntu)
 Using Kops (Kubernetes Operations) I'm setting up Kubernetes on AWS for production (Its a demo work)
 ## 🚀 Our main motive is to setup Kubernete using KOPS on EC2
 ### Recommendation:
@@ -12,58 +12,15 @@ For **production**, you’ll need:
 
 ### let me drive you into the prerequisites✅
 Create an EC2 instance with required **dependencies** :
-1. **Phython3**
-2. **AWS CLI**
-3. **Kubectl**
-
-## 📦 Installation
-
-1. **Add kubernetes GPG Key**
-   
-```bash
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-```
-2. **Add kubernetes API Repository**
-
-```bash
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-```
-3.  **Update APT and Install Kubernetes + Python Tools**
-
-```bash
-sudo apt-get update
-sudo apt-get install -y python3-pip apt-transport-https kubectl
-```
-4.  **Install and Upgrade AWS CLI with pip**
-
-```bash
-pip3 install awscli --upgrade
-```
-5.  **Add pip's local bin directory to PATH**
-
-```bash
-export PATH="$PATH:/home/ubuntu/.local/bin/"
-```
-## Install KOPS (the key player)
-```bash
-curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
-
-chmod +x kops-linux-amd64
-
-sudo mv kops-linux-amd64 /usr/local/bin/kops
-```
-## Provide the below permissions to your IAM user. If you are using the admin user, the below permissions are available by default
-1.  `AmazonEC2FullAccess`
-2.  `AmazonS3FullAccess`
-3.  `IAMFullAccess`
-4.  `AmazonVPCFullAccess`
-
-## Set up AWS CLI configuration on your EC2 Instance or Laptop
+1.  AWS Account
+2.  IAM User or Role with admin-like access (EC2, S3, Route53, IAM, etc.)
+3.  Amazon Linux 2 or Ubuntu EC2 instance for running kops
+4.  Set up AWS CLI configuration on your EC2 Instance
 ### Run 
 ```bash
 aws configure
 ```
-  -you will prompted to enter the following details:
+-  you will prompted to enter the following details:
 ```bash
 AWS Access Key ID [****************NE5G]:
 AWS Secret Access Key [****************FJE3]:
@@ -71,25 +28,151 @@ Default region name [us-east-1]:
 Default output format [table]:
 ```
 You need to enter the requested AWS Access Key ID, AWS Secret Access Key, Default region name, Default output format based on your IAM user.
-## Kubernetes Cluster Installation:
-### Create S3 bucket for storing the KOPS objects.
+5.  Registered domain (optional) or use .k8s.local for test clusters (gossip DNS)
+
+## 📦 Installation
+### Step 1: Install Required Tools
+#### Update packages and install deps
 ```bash
-aws s3api create-bucket --bucket kops-abhi-storage --region us-east-1
+sudo yum update -y
+sudo yum install -y curl unzip wget
 ```
-### Create the cluster
+(Use `apt` instead of `yum` on Ubuntu)
+#### Install kubectl
 ```bash
-kops create cluster --name=demok8scluster.k8s.local --state=s3://kops-abhi-storage --zones=us-east-1a --node-count=1 --node-size=t2.micro --master-size=t2.micro  --master-volume-size=8 --node-volume-size=8
+curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
 ```
-### Important: Edit the configuration as there are multiple resources created which won't fall into the free tier
+ #### Install kOps
+ ```bash
+curl -LO https://github.com/kubernetes/kops/releases/latest/download/kops-linux-amd64
+chmod +x kops-linux-amd64
+sudo mv kops-linux-amd64 /usr/local/bin/kops
+```
+### Step 2: Create an S3 Bucket for Cluster State
 ```bash
-kops edit cluster myfirstcluster.k8s.local
+aws s3api create-bucket \
+  --bucket <your-kops-state-bucket> \
+  --region <your-region> \
+  --create-bucket-configuration LocationConstraint=<your-region>
 ```
-Build the cluster
+For Example:
 ```bash
-kops update cluster demok8scluster.k8s.local --yes --state=s3://kops-abhi-storage
+aws s3api create-bucket \
+  --bucket kops-abhi913-storage \
+  --region us-east-1
 ```
-This will take a few minutes to create............
+Enable versioning (recommended):
+```bash
+aws s3api put-bucket-versioning \
+  --bucket kops-abhi913-storage \
+  --versioning-configuration Status=Enabled
+```
+### Step 3: Set Environment Variables
+```bash
+export KOPS_STATE_STORE=s3://kops-abhi913-storage
+```
+Make it persistent:
+```bash
+echo 'export KOPS_STATE_STORE=s3://kops-abhi913-storage' >> ~/.bash_profile
+source ~/.bash_profile
+```
+### Step 4: Configure IAM Permissions for kOps
+Attach these AWS managed policies or equivalent to your EC2 IAM role:
+-  AmazonEC2FullAccess
+-  AmazonS3FullAccess
+-  AmazonVPCFullAccess
+-  IAMFullAccess
+-  AmazonRoute53FullAccess (if using DNS)
+-  AmazonEventBridgeFullAccess
+-  AmazonSQSFullAccess
+You may also need custom inline policies for:
+-  sqs:TagQueue
+-  events:ListRules
+#### After creating the role tag this to your EC2 instance 
+
+### Step 5: Create the Kubernetes Cluster
+For Test Setup (Gossip DNS):
+```bash
+kops create cluster \
+  --name=kopsk8scluster.k8s.local \
+  --state=${KOPS_STATE_STORE} \
+  --zones=us-east-1a \
+  --node-count=1 \
+  --node-size=t2.micro \
+  --control-plane-size=t2.micro \
+  --node-volume-size=8 \
+  --control-plane-volume-size=8 \
+  --yes
+```
+-  Replace with your preferred region, instance sizes, and cluster name.
+-  This will take a few minutes to create............
+  
+### Step 6: Wait and Validate
+Check EC2 Instances:
+-  1 master node
+-  1+ worker node(s)
+#### Validate the cluster:
 After a few mins, run the below command to verify the cluster installation.
 ```bash
-kops validate cluster demok8scluster.k8s.local
+kops validate cluster --name=kopsk8scluster.k8s.local
 ```
+### Step 7: Test with kubectl
+##### Export cluster config to kubectl:
+```bash
+kops export kubecfg --name=kopsk8scluster.k8s.local
+```
+#### Get node info:
+```bash
+kubectl get nodes
+```
+
+### Step 8: Deploy a Test Pod
+```bash
+kubectl run nginx --image=nginx --restart=Never --port=80
+kubectl get pods
+```
+(Optional) Expose:
+```bash
+kubectl expose pod nginx --type=NodePort --port=80
+kubectl get svc
+```
+Access:
+```bash
+http://<EC2 Public IP>:<NodePort>
+```
+### You can also write a manifest for creating the pod
+1.  Create a file **nginx-pod.yaml**
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
+```
+2.  Apply it:
+```bash
+kubectl apply -f nginx-pod.yaml
+```
+3.  Check status:
+```bash
+kubectl get pods
+```
+### Step 9: Delete Cluster (When Done)
+```bash
+kops delete cluster --name=kopsk8scluster.k8s.local --yes
+```
+Delete S3 bucket: (If ot used further)
+```bash
+aws s3 rb s3://kops-abhi913-storage --force
+```
+## Notes
+-  .k8s.local = Gossip DNS (for test/dev). Use Route53 for production.
+-  Ensure IAM role has full required permissions.
+-  For multi-AZ and HA: use --zones=us-east-1a,us-east-1b,us-east-1c
