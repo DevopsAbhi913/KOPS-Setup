@@ -12,9 +12,9 @@ Fully managed by cloud providers.
 -  **DigitalOcean Kubernetes**
 -  **Linode Kubernetes Engine**
 ----------
--  Pros: Easy to set up, managed control plane, scalable, secure.
--  Use case: Enterprise production workloads.
-
+|-  Pros: Easy to set up, managed control plane, scalable, secure.|
+|-  Use case: Enterprise production workloads. |
+------
 ## 2.  Self-Managed Kubernetes (Production/Custom Use Cases)
 You manage the control plane and worker nodes.
 
