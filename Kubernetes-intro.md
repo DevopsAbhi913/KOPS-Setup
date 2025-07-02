@@ -11,7 +11,7 @@ Fully managed by cloud providers.
 -  **Oracle OKE** (Oracle Kubernetes Engine)
 -  **DigitalOcean Kubernetes**
 -  **Linode Kubernetes Engine**
-
+----------
 -  Pros: Easy to set up, managed control plane, scalable, secure.
 -  Use case: Enterprise production workloads.
 
