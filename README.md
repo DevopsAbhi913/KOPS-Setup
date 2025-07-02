@@ -26,7 +26,7 @@ AWS Secret Access Key [****************FJE3]:
 Default region name [us-east-1]:
 Default output format [table]:
 ```
-You need to enter the requested AWS Access Key ID, AWS Secret Access Key, Default region name, Default output format based on your IAM user.
+-  You need to enter the requested AWS Access Key ID, AWS Secret Access Key, Default region name, Default output format based on your IAM user.
 5.  Registered domain (optional) or use .k8s.local for test clusters (gossip DNS)
 6.  Ensure it’s in a public subnet with internet access
 
