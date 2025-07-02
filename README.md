@@ -1,6 +1,15 @@
 # KOPS-Setup
 Using Kops (Kubernetes Operations) I'm setting up Kubernetes on AWS for production (Its a demo work)
 ## 🚀 Our main motive is to setup Kubernete using KOPS on EC2
+### Recommendation:
+For **development or testing**, you can start with:
+-  1 x Master (t3.medium)
+-  1 x Node (t3.medium)
+
+For **production**, you’ll need:
+-  3 x Masters (in 3 AZs, t3.medium or larger)
+-  2+ Nodes depending on workload
+
 ### let me drive you into the prerequisites✅
 Create an EC2 instance with required **dependencies** :
 1. **Phython3**
@@ -48,6 +57,14 @@ sudo mv kops-linux-amd64 /usr/local/bin/kops
 2.  AmazonS3FullAccess
 3.  IAMFullAccess
 4.  AmazonVPCFullAccess
+
+AmazonEC2FullAccess
+
+AmazonS3FullAccess
+
+AmazonRoute53FullAccess
+
+`IAMFullAccess`
 
 ## Set up AWS CLI configuration on your EC2 Instance or Laptop
 ### Run 
