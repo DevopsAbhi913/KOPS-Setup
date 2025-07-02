@@ -12,8 +12,8 @@ Fully managed by cloud providers.
 -  **DigitalOcean Kubernetes**
 -  **Linode Kubernetes Engine**
 
-➡  Pros: Easy to set up, managed control plane, scalable, secure.
-➡  Use case: Enterprise production workloads.
+-  Pros: Easy to set up, managed control plane, scalable, secure.
+-  Use case: Enterprise production workloads.
 
 ## 2.  Self-Managed Kubernetes (Production/Custom Use Cases)
 You manage the control plane and worker nodes.
@@ -30,8 +30,8 @@ c. **Kuberspray** (Ansible-based)
 -  Highly customizable.
 -  Supports multiple cloud/on-premise providers.
 
-➡️ Pros: Full control, customizable.
-➡️ Use case: Custom environments, hybrid cloud, air-gapped setups.
+-  Pros: Full control, customizable.
+-  Use case: Custom environments, hybrid cloud, air-gapped setups.
 
 ## 3.  Lightweight Kubernetes Distributions
 Ideal for edge, IoT, development, or low-resource environments.
@@ -43,8 +43,8 @@ Ideal for edge, IoT, development, or low-resource environments.
 -  **RKE (Rancher Kubernetes Engine)** – Used with Rancher for multi-cluster management
 -  **RKE2** – Next-gen, hardened RKE for production (CIS benchmark-compliant)
 
-➡️ Pros: Fast setup, low overhead, easy to test.
-➡️ Use case: Development, CI/CD pipelines, Edge computing.
+-  Pros: Fast setup, low overhead, easy to test.
+-  Use case: Development, CI/CD pipelines, Edge computing.
 
 ## 4.  Kubernetes Platforms with Abstraction and Add-ons
 Packaged with UI, monitoring, policy, security, multi-cluster management.
@@ -54,8 +54,8 @@ Packaged with UI, monitoring, policy, security, multi-cluster management.
 -  **Rancher** – Centralized management of multiple Kubernetes clusters
 -  **Platform9** – SaaS-managed Kubernetes for on-prem/cloud
 
-➡️ Pros: Full-featured platforms.
-➡️ Use case: Enterprises needing visibility, control, and support.
+-  Pros: Full-featured platforms.
+-  Use case: Enterprises needing visibility, control, and support.
 
 ## 5.  Experimental & Under Development / Emerging Approaches
 
@@ -69,8 +69,8 @@ Packaged with UI, monitoring, policy, security, multi-cluster management.
 -  **Cluster API (CAPI)** – Declarative Kubernetes cluster lifecycle management.
 -  **Talos Linux** – OS built for Kubernetes, minimal and immutable.
 
-➡️ Pros: Focus on advanced use cases – edge, multi-cluster, hybrid.
-➡️ Use case: Experimental, large-scale, federated Kubernetes
+-  Pros: Focus on advanced use cases – edge, multi-cluster, hybrid.
+-  Use case: Experimental, large-scale, federated Kubernetes
 
 
 # We already seen **Kubeadm**, Why **KOPS** ? Let me clarity it with simple tabular format [**Kubeadm vs KOPS**]
