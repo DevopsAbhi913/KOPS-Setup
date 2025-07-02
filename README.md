@@ -1,7 +1,10 @@
-# KOPS Setup on AWS (Amazon Linux / Ubuntu)
-Using Kops (Kubernetes Operations) I'm setting up Kubernetes on AWS for production (Its a demo work)
-## 🚀 Our main motive is to setup Kubernete using KOPS on EC2
-### Recommendation:
+# 🚀 KOps Setup on AWS (Amazon Linux / Ubuntu)
+The easiest way to get a production grade Kubernetes cluster up and running.
+### What is kOps?
+-  We like to think of it as kubectl for clusters.
+-  kops will not only help you create, destroy, upgrade and maintain production-grade, highly available, Kubernetes cluster, but it will also provision the necessary cloud infrastructure.
+## Goal of the Day : Setup Kubernete using KOPS on EC2
+### Realtime Recommendation:
 For **development or testing**, you can start with:
 -  1 x Master (t3.medium)
 -  1 x Node (t3.medium)
