@@ -87,10 +87,10 @@ Attach these AWS managed policies or equivalent to your EC2 IAM role:
 -  AmazonRoute53FullAccess (if using DNS)
 -  AmazonEventBridgeFullAccess
 -  AmazonSQSFullAccess
-You may also need custom inline policies for:
+##### You may also need custom inline policies for:
 -  sqs:TagQueue
 -  events:ListRules
-#### After creating the role tag this to your EC2 instance 
+##### After creating the role attach this to your EC2 instance 
 
 ### Step 5: Create the Kubernetes Cluster
 For Test Setup (Gossip DNS):
