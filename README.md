@@ -11,10 +11,9 @@ For **production**, you’ll need:
 -  2+ Nodes depending on workload
 
 ### let me drive you into the prerequisites✅
-Create an EC2 instance with required **dependencies** :
-1.  AWS Account
-2.  IAM User or Role with admin-like access (EC2, S3, Route53, IAM, etc.)
-3.  Amazon Linux 2 or Ubuntu EC2 instance for running kops
+1.  AWS Account with free tier or pay as go
+2.  Amazon Linux 2 or Ubuntu EC2 instance for running kops
+3.  IAM User or Role with admin-like access (EC2, S3, Route53, IAM, etc.)
 4.  Set up AWS CLI configuration on your EC2 Instance
 ### Run 
 ```bash
@@ -29,6 +28,7 @@ Default output format [table]:
 ```
 You need to enter the requested AWS Access Key ID, AWS Secret Access Key, Default region name, Default output format based on your IAM user.
 5.  Registered domain (optional) or use .k8s.local for test clusters (gossip DNS)
+6.  Ensure it’s in a public subnet with internet access
 
 ## 📦 Installation
 ### Step 1: Install Required Tools
@@ -78,7 +78,7 @@ Make it persistent:
 echo 'export KOPS_STATE_STORE=s3://kops-abhi913-storage' >> ~/.bash_profile
 source ~/.bash_profile
 ```
-### Step 4: Configure IAM Permissions for kOps
+### Step 4: Configure IAM Permissions for kOps execution role
 Attach these AWS managed policies or equivalent to your EC2 IAM role:
 -  AmazonEC2FullAccess
 -  AmazonS3FullAccess
