@@ -111,6 +111,7 @@ kops create cluster \
   --name=kopsk8scluster.k8s.local \
   --state=${KOPS_STATE_STORE} \
   --zones=us-east-1a \
+  --vpc=<existing-vpc-id> \
   --node-count=1 \
   --node-size=t2.micro \
   --control-plane-size=t2.micro \
