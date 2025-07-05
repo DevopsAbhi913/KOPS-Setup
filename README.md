@@ -122,7 +122,7 @@ kops create cluster \
 -  This will take a few minutes to create............
 
 Expected result :
-```text
+```bash
 kOps has set your kubectl context to kopsk8scluster.k8s.local
 
 Cluster is starting.  It should be ready in a few minutes.
