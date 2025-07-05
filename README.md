@@ -78,7 +78,7 @@ Expected result if s3 bucket is created:
 Enable versioning (recommended):
 ```bash
 aws s3api put-bucket-versioning \
-  --bucket kops-abhi913-storage \
+  --bucket kops-abhi303-storage \
   --versioning-configuration Status=Enabled
 ```
 ### Step 3: Set Environment Variables
