@@ -62,9 +62,18 @@ aws s3api create-bucket \
 ```
 For Example:
 ```bash
-aws s3api create-bucket \
-  --bucket kops-abhi913-storage \
-  --region us-east-1
+ aws s3api create-bucket \
+  --bucket kops-abhi303-storage \
+  --region ap-south-1 \
+  --create-bucket-configuration LocationConstraint=ap-south-1
+```
+Expected result if s3 bucket is created:
+```bash
+---------------------------------------------------------------
+|                        CreateBucket                         |
++----------+--------------------------------------------------+
+|  Location|  http://kops-abhi303-storage.s3.amazonaws.com/   |
++----------+--------------------------------------------------+
 ```
 Enable versioning (recommended):
 ```bash
