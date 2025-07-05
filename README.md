@@ -83,11 +83,11 @@ aws s3api put-bucket-versioning \
 ```
 ### Step 3: Set Environment Variables
 ```bash
-export KOPS_STATE_STORE=s3://kops-abhi913-storage
+export KOPS_STATE_STORE=s3://kops-abhi303-storage
 ```
 Make it persistent:
 ```bash
-echo 'export KOPS_STATE_STORE=s3://kops-abhi913-storage' >> ~/.bash_profile
+echo 'export KOPS_STATE_STORE=s3://kops-abhi303-storage' >> ~/.bash_profile
 source ~/.bash_profile
 ```
 ### Step 4: Configure IAM Permissions for kOps execution role
