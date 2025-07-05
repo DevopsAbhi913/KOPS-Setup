@@ -120,16 +120,30 @@ kops create cluster \
 ```
 -  Replace with your preferred region, instance sizes, and cluster name.
 -  This will take a few minutes to create............
-  
+
+Expected result :
+```text
+kOps has set your kubectl context to kopsk8scluster.k8s.local
+
+Cluster is starting.  It should be ready in a few minutes.
+
+Suggestions:
+ * validate cluster: kops validate cluster --wait 10m
+ * list nodes: kubectl get nodes --show-labels
+ * ssh to a control-plane node: ssh -i ~/.ssh/id_rsa ubuntu@
+ * the ubuntu user is specific to Ubuntu. If not using Ubuntu please use the appropriate user
+ * read about installing addons at: https://kops.sigs.k8s.io/addons.
+```
 ### Step 6: Wait and Validate
-Check EC2 Instances:
--  1 master node
--  1+ worker node(s)
 #### Validate the cluster:
 After a few mins, run the below command to verify the cluster installation.
 ```bash
 kops validate cluster --name=kopsk8scluster.k8s.local
 ```
+Check EC2 Instances:
+-  1 master node
+-  1+ worker node(s)
+
 ### Step 7: Test with kubectl
 ##### Export cluster config to kubectl:
 ```bash
