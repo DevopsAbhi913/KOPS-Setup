@@ -60,7 +60,8 @@ aws s3api create-bucket \
   --region <your-region> \
   --create-bucket-configuration LocationConstraint=<your-region>
 ```
-For Example:
+**Note:** S3 requires `--create-bucket-configuration LocationConstraint=<region>` for regions other than `us-east-1`.
+#### For Example:
 ```bash
  aws s3api create-bucket \
   --bucket kops-abhi303-storage \
@@ -75,7 +76,7 @@ Expected result if s3 bucket is created:
 |  Location|  http://kops-abhi303-storage.s3.amazonaws.com/   |
 +----------+--------------------------------------------------+
 ```
-Enable versioning (recommended):
+Enable versioning (STRONGLY recommended) in case you ever need to revert or recover a previous state store:
 ```bash
 aws s3api put-bucket-versioning \
   --bucket kops-abhi303-storage \
