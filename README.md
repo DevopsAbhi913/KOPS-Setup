@@ -200,7 +200,7 @@ Check EC2 Instances:
 -  1 master node
 -  1+ worker node(s)
 
-### Step 8: Deploy a Test Pod
+### Step 4: Deploy a Test Pod
 ```bash
 kubectl run nginx --image=nginx --restart=Never --port=80
 kubectl get pods
@@ -236,7 +236,7 @@ kubectl apply -f nginx-pod.yaml
 ```bash
 kubectl get pods
 ```
-### Step 9: Delete Cluster (When Done)
+### Step 5: Delete Cluster (When Done)
 ```bash
 kops delete cluster --name=amazing-app-cluster.k8s.local --yes
 ```
