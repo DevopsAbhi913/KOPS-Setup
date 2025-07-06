@@ -77,7 +77,7 @@ Note: S3 requires `--create-bucket-configuration LocationConstraint=<region>` fo
   --region ap-south-1 \
   --create-bucket-configuration LocationConstraint=ap-south-1
 ```
-##### For now lets us `us-east-1`
+##### For now lets us go with `us-east-1`
 ```bash
 aws s3api create-bucket \
     --bucket kops-abhi303-storage \
