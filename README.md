@@ -54,13 +54,14 @@ chmod +x kops-linux-amd64
 sudo mv kops-linux-amd64 /usr/local/bin/kops
 ```
 ### Step 2: Create an S3 Bucket for Cluster State
+In order to store the state of your cluster, and the representation of your cluster, we need to create a dedicated S3 bucket for kops to use. This bucket will become the source of truth for our cluster configuration.
 ```bash
 aws s3api create-bucket \
   --bucket <your-kops-state-bucket> \
   --region <your-region> \
   --create-bucket-configuration LocationConstraint=<your-region>
 ```
-**Note:** S3 requires `--create-bucket-configuration LocationConstraint=<region>` for regions other than `us-east-1`.
+Note: S3 requires `--create-bucket-configuration LocationConstraint=<region>` for regions other than `us-east-1`.
 #### For Example:
 ```bash
  aws s3api create-bucket \
