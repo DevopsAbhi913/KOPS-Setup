@@ -146,29 +146,36 @@ Make it persistent:
 echo 'export KOPS_STATE_STORE=s3://kops-abhi303-storage' >> ~/.bash_profile
 source ~/.bash_profile
 ```
-
-
-### Step 5:
-For Test Setup (Gossip DNS):
+#### For Test Setup (Gossip DNS):
+**The below command will generate a cluster configuration, but will not start building it. Make sure you have generated an SSH key pair before creating your cluster.**
 ```bash
 kops create cluster \
-  --name=kopsk8scluster.k8s.local \
-  --state=${KOPS_STATE_STORE} \
+  --name=${NAME} \
+  --cloud=aws \
   --zones=us-east-1a \
-  --node-count=1 \
-  --node-size=t2.micro \
-  --control-plane-size=t2.micro \
-  --node-volume-size=8 \
-  --control-plane-volume-size=8 \
-  --yes
+  --discovery-store=${KOPS_STATE_STORE}/${NAME}/discovery \
+  --state=${KOPS_STATE_STORE}
 ```
--  Replace with your preferred region, instance sizes, and cluster name.
--  This will take a few minutes to create............
+-  Replace with your preferred deatails
+-  This will take a few minutes to create ............
+> All instances created by kops will be built within ASG (Auto Scaling Groups), which means each instance will be automatically monitored and rebuilt by AWS if it suffers any failure.
 
-Expected result :
+#### Customize Cluster Configuration:
+Now we have a cluster configuration, we can look at every aspect that defines our cluster by editing the description.
 ```bash
-kOps has set your kubectl context to kopsk8scluster.k8s.local
+kops edit cluster --name ${NAME}
+```
 
+> This opens your editor (as defined by $EDITOR) and allows you to edit the configuration. The configuration is loaded from the S3 bucket we created earlier, and automatically updated when we save and exit the editor.
+
+> We'll leave everything set to the defaults for now, but the rest of kops documentation covers additional settings and configuration you can enable.
+### Build the Cluster
+Now we take the final step of actually building the cluster. This'll take a while. Once it finishes you'll have to wait longer while the booted instances finish downloading Kubernetes components and reach a "ready" state.
+```bash
+kops update cluster --name ${NAME} --yes --admin
+```
+Expected result: 
+```bash
 Cluster is starting.  It should be ready in a few minutes.
 
 Suggestions:
@@ -178,25 +185,20 @@ Suggestions:
  * the ubuntu user is specific to Ubuntu. If not using Ubuntu please use the appropriate user
  * read about installing addons at: https://kops.sigs.k8s.io/addons.
 ```
-### Step 6: Wait and Validate
-#### Validate the cluster:
+### Use the cluster:
+> The configuration for your cluster was automatically generated and written to ~/.kube/config for you!
+-  A simple Kubernetes API call can be used to check if the API is online and listening. Let's use kubectl to check the nodes.
+```bash
+kubectl get nodes
+```
+kops also ships with a handy validation tool that can be ran to ensure your cluster is working as expected.
 After a few mins, run the below command to verify the cluster installation.
 ```bash
-kops validate cluster --name=kopsk8scluster.k8s.local
+kops validate cluster --name=amazing-app-cluster.k8s.local
 ```
 Check EC2 Instances:
 -  1 master node
 -  1+ worker node(s)
-
-### Step 7: Test with kubectl
-##### Export cluster config to kubectl:
-```bash
-kops export kubecfg --name=kopsk8scluster.k8s.local
-```
-#### Get node info:
-```bash
-kubectl get nodes
-```
 
 ### Step 8: Deploy a Test Pod
 ```bash
@@ -236,7 +238,7 @@ kubectl get pods
 ```
 ### Step 9: Delete Cluster (When Done)
 ```bash
-kops delete cluster --name=kopsk8scluster.k8s.local --yes
+kops delete cluster --name=amazing-app-cluster.k8s.local --yes
 ```
 Delete S3 bucket: (If ot used further)
 ```bash
