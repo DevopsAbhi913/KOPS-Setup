@@ -16,8 +16,17 @@ For **production**, you’ll need:
 ### let me drive you into the prerequisites✅
 1.  AWS Account with free tier or pay as go
 2.  Amazon Linux 2 or Ubuntu EC2 instance for running kops
-3.  IAM User or Role with admin-like access (EC2, S3, Route53, IAM, etc.)
-4.  Set up AWS CLI configuration on your EC2 Instance
+3.  Configure IAM Permissions for kOps execution role to create and organize (EC2, S3, Route53, IAM, etc.)
+Attach these AWS managed policies or equivalent to your EC2 IAM role:
+-  `AmazonEC2FullAccess`
+-  `AmazonS3FullAccess`
+-  `AmazonVPCFullAccess`
+-  `IAMFullAccess`
+-  `AmazonRoute53FullAccess` (if using DNS)
+-  `AmazonEventBridgeFullAccess`
+-  `AmazonSQSFullAccess`
+> After creating the role attach this to your EC2 instance 
+4.  Set up AWS CLI configuration on your EC2 Instance admin-like access
 ### Run 
 ```bash
 aws configure
@@ -30,7 +39,7 @@ Default region name [us-east-1]:
 Default output format [table]:
 ```
 -  You need to enter the requested AWS Access Key ID, AWS Secret Access Key, Default region name, Default output format based on your IAM user.
-5.  Registered domain (optional) or use .k8s.local for test clusters (gossip DNS)
+5.  Registered domain (optional) or use .k8s.local for test clusters **(gossip DNS)**
 6.  Ensure it’s in a public subnet with internet access
 
 ## 📦 Installation
@@ -57,17 +66,22 @@ sudo mv kops-linux-amd64 /usr/local/bin/kops
 In order to store the state of your cluster, and the representation of your cluster, we need to create a dedicated S3 bucket for kops to use. This bucket will become the source of truth for our cluster configuration.
 ```bash
 aws s3api create-bucket \
-  --bucket <your-kops-state-bucket> \
-  --region <your-region> \
-  --create-bucket-configuration LocationConstraint=<your-region>
+    --bucket prefix-example-com-state-store \
+    --region us-east-1
 ```
 Note: S3 requires `--create-bucket-configuration LocationConstraint=<region>` for regions other than `us-east-1`.
-#### For Example:
+#### For Example: if you choose other than `us-east-1`, lets say `ap-south-1`
 ```bash
  aws s3api create-bucket \
   --bucket kops-abhi303-storage \
   --region ap-south-1 \
   --create-bucket-configuration LocationConstraint=ap-south-1
+```
+##### For now lets us `us-east-1`
+```bash
+aws s3api create-bucket \
+    --bucket kops-abhi303-storage \
+    --region us-east-1
 ```
 Expected result if s3 bucket is created:
 ```bash
@@ -83,8 +97,48 @@ aws s3api put-bucket-versioning \
   --bucket kops-abhi303-storage \
   --versioning-configuration Status=Enabled
 ```
-### Step 3: Set Environment Variables
+## Cluster OIDC store:
+In order for ServiceAccounts to use external permissions (aka IAM Roles for ServiceAccounts), you also need a bucket for hosting the OIDC documents. While you can reuse the bucket above if you grant it a public ACL, we do recommend a separate bucket for these files.
+#### The ACL must be public so that the AWS STS service can access them.
 ```bash
+# Step 1: Create the bucket
+aws s3api create-bucket \
+    --bucket kops-abhi303-storage-oidc \
+    --region us-east-1 \
+    --object-ownership BucketOwnerPreferred
+
+# Step 2: Set public access block (only if you really want public)
+aws s3api put-public-access-block \
+  --bucket kops-abhi303-storage-oidc \
+  --public-access-block-configuration '{
+    "BlockPublicAcls": false,
+    "IgnorePublicAcls": false,
+    "BlockPublicPolicy": false,
+    "RestrictPublicBuckets": false
+}'
+
+# Step 3: (Optional, risky) Set ACL to public-read
+aws s3api put-bucket-acl \
+  --bucket kops-abhi303-storage-oidc \
+  --acl public-read
+```
+
+### Using S3 default bucket encryption
+kops supports default bucket encryption to encrypt its state in an S3 bucket. This way, the default server side encryption set for your bucket will be used for the kOps state too. You may want to use this AWS feature, e.g., for easily encrypting every written object by default or when you need to use specific encryption keys (KMS, CMK) for compliance reasons.
+> If your S3 bucket has a default encryption set up, kOps will use it:
+```bash
+aws s3api put-bucket-encryption \
+  --bucket my-godown-storage \
+  --server-side-encryption-configuration '{
+  "Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"}}]
+  }'
+```
+### Step 3:  Create the Kubernetes Cluster
+#### Prepare local environment
+We're ready to start creating our first cluster! Let's first set up a few environment variables to make the process easier.
+> For a gossip-based cluster, make sure the name ends with k8s.local. For example:
+```bash
+export NAME=amazing-app-cluster.k8s.local
 export KOPS_STATE_STORE=s3://kops-abhi303-storage
 ```
 Make it persistent:
@@ -92,21 +146,9 @@ Make it persistent:
 echo 'export KOPS_STATE_STORE=s3://kops-abhi303-storage' >> ~/.bash_profile
 source ~/.bash_profile
 ```
-### Step 4: Configure IAM Permissions for kOps execution role
-Attach these AWS managed policies or equivalent to your EC2 IAM role:
--  AmazonEC2FullAccess
--  AmazonS3FullAccess
--  AmazonVPCFullAccess
--  IAMFullAccess
--  AmazonRoute53FullAccess (if using DNS)
--  AmazonEventBridgeFullAccess
--  AmazonSQSFullAccess
-##### You may also need custom inline policies for:
--  sqs:TagQueue
--  events:ListRules
-##### After creating the role attach this to your EC2 instance 
 
-### Step 5: Create the Kubernetes Cluster
+
+### Step 5:
 For Test Setup (Gossip DNS):
 ```bash
 kops create cluster \
